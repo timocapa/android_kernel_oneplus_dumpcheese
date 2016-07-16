@@ -456,21 +456,20 @@ int fpc1020_input_init(struct fpc1020_data *fpc1020)
 		set_bit(EV_SYN, fpc1020->input_dev->evbit);
 		set_bit(EV_ABS, fpc1020->input_dev->evbit);
 
-		set_bit(KEY_POWER, fpc1020->input_dev->keybit);
-		set_bit(KEY_F2, fpc1020->input_dev->keybit);
-		set_bit(KEY_HOME, fpc1020->input_dev->keybit);
-		set_bit(KEY_FINGERPRINT, fpc1020->input_dev->keybit);
-
-		/*
-		set_bit(BTN_A, fpc1020->input_dev->keybit);
-		set_bit(BTN_C, fpc1020->input_dev->keybit);
-		set_bit(BTN_B, fpc1020->input_dev->keybit);
-		set_bit(ABS_Z, fpc1020->input_dev->keybit);
-		set_bit(KEY_UP, fpc1020->input_dev->keybit);
-		set_bit(KEY_DOWN, fpc1020->input_dev->keybit);
-		set_bit(KEY_LEFT, fpc1020->input_dev->keybit);
-		set_bit(KEY_RIGHT, fpc1020->input_dev->keybit);
-		*/
+	set_bit(KEY_POWER, fpc1020->input_dev->keybit);
+	set_bit(KEY_F2, fpc1020->input_dev->keybit);
+	set_bit(KEY_HOME, fpc1020->input_dev->keybit);
+	/*
+	set_bit(BTN_A, fpc1020->input_dev->keybit);
+	set_bit(BTN_C, fpc1020->input_dev->keybit);
+	*/
+	set_bit(BTN_B, fpc1020->input_dev->keybit);
+	set_bit(ABS_Z, fpc1020->input_dev->keybit);
+	set_bit(KEY_UP, fpc1020->input_dev->keybit);
+	set_bit(KEY_DOWN, fpc1020->input_dev->keybit);
+	set_bit(KEY_LEFT, fpc1020->input_dev->keybit);
+	set_bit(KEY_RIGHT, fpc1020->input_dev->keybit);
+	set_bit(KEY_FINGERPRINT, fpc1020->input_dev->keybit);
 
 		/* Register the input device */
 		error = input_register_device(fpc1020->input_dev);
@@ -549,6 +548,13 @@ static irqreturn_t fpc1020_irq_handler(int irq, void *handle)
 	input_sync(fpc1020->input_dev);
 	input_report_key(fpc1020->input_dev, KEY_FINGERPRINT, 0);
 	input_sync(fpc1020->input_dev);
+
+	if (!fpc1020->screen_state) {
+		input_report_key(fpc1020->input_dev, KEY_FINGERPRINT, 1);
+		input_sync(fpc1020->input_dev);
+		input_report_key(fpc1020->input_dev, KEY_FINGERPRINT, 0);
+		input_sync(fpc1020->input_dev);
+	}
 
 	return IRQ_HANDLED;
 }
