@@ -16126,7 +16126,6 @@ struct hdd_config {
 	/* beacon count before channel switch */
 	uint8_t sap_chanswitch_beacon_cnt;
 	uint8_t sap_chanswitch_mode;
-	uint32_t rx_wakelock_timeout;
 #ifdef WLAN_FEATURE_WOW_PULSE
 	bool wow_pulse_support;
 	uint8_t wow_pulse_pin;
