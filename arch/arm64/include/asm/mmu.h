@@ -64,7 +64,6 @@ static inline void arm64_apply_bp_hardening(void)
 {
 	struct bp_hardening_data *d;
 
-
 	d = arm64_get_bp_hardening_data();
 	if (d->fn)
 		d->fn();
